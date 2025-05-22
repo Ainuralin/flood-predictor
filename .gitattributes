@@ -1,1 +1,2 @@
 flood_model.pkl filter=lfs diff=lfs merge=lfs -text
+flood_scaler.pkl filter=lfs diff=lfs merge=lfs -text
