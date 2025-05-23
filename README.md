@@ -1,6 +1,6 @@
 # 🌊 Flood Risk Prediction Web App
 
-A web application for predicting flood risk using both classification and regression machine learning models. Built with FastAPI, styled with HTML/CSS, and deployable on Render.
+A web application for predicting flood risk using both classification and regression machine learning models. Built with FastAPI, styled with HTML/CSS.
 
 ## 📦 Features
 
@@ -26,4 +26,3 @@ A web application for predicting flood risk using both classification and regres
 
    ```bash
    git clone https://github.com/your-username/flood-risk-app.git
-   cd flood-risk-app
