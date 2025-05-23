@@ -1,24 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Flood Prediction</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flood Risk Prediction</title>
     <link rel="stylesheet" href="/static/styles.css">
-
 </head>
 <body>
-    <h1>Flood Prediction Form</h1>
-    <form action="/predict_form" method="post">
-        {% for feature in features %}
-            <label for="{{ feature }}">{{ feature }}</label>
-            <input type="number" step="any" name="{{ feature }}" required>
-        {% endfor %}
-        <button type="submit">Predict</button>
-    </form>
-
-    {% if result is not none %}
-        <div class="result">
-            Flood Probability: {{ result }}
-        </div>
-    {% endif %}
+    <div class="container">
+        <h1>🌊 Flood Risk Predictor</h1>
+        <form action="/predict_form" method="post">
+            {% for feature in features %}
+                <div class="input-group">
+                    <label>{{ feature }}</label>
+                    <input type="number" step="any" name="{{ feature }}" required>
+                </div>
+            {% endfor %}
+            <button type="submit">Predict</button>
+        </form>
+        {% if prediction %}
+            <div class="result">
+                <strong>Prediction:</strong> {{ prediction }}
+            </div>
+        {% endif %}
+    </div>
 </body>
 </html>
