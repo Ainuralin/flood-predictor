@@ -10,10 +10,6 @@ A web application for predicting flood risk using both classification and regres
 - 🧠 Uses pretrained models: `flood_model.pkl` (classifier) and `flood_regressor.pkl` (regressor).
 - 📊 Inputs are scaled using `flood_scaler.pkl`.
 
-## 🚀 Live Demo
-
-Check the app live at: [Render Deployment URL]  
-_(Replace with your actual URL)_
 
 ## ⚙️ Technologies Used
 
@@ -23,7 +19,6 @@ _(Replace with your actual URL)_
 - Jinja2 (templating)
 - HTML + CSS
 - Git LFS (for model storage)
-- Render (for deployment)
 
 ## 🧪 Run Locally
 
