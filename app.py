@@ -3,12 +3,15 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 import joblib
+import numpy as np
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
-model = joblib.load("flood_model.pkl")
+# Загрузка моделей
+classifier = joblib.load("flood_model.pkl")
+regressor = joblib.load("flood_regressor.pkl")
 scaler = joblib.load("flood_scaler.pkl")
 
 features_list = [
@@ -21,8 +24,12 @@ features_list = [
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
-    # При заходе покажем форму без результата
-    return templates.TemplateResponse("form.html", {"request": request, "features": features_list, "result": None})
+    return templates.TemplateResponse("form.html", {
+        "request": request,
+        "features": features_list,
+        "result_classification": None,
+        "result_regression": None
+    })
 
 @app.post("/predict_form", response_class=HTMLResponse)
 async def predict_form(
@@ -56,9 +63,13 @@ async def predict_form(
         WetlandLoss, InadequatePlanning, PoliticalFactors
     ]
     scaled = scaler.transform([features])
-    prediction = model.predict(scaled)[0]
 
-    return templates.TemplateResponse(
-        "form.html",
-        {"request": request, "features": features_list, "result": int(prediction)}
-    )
+    classification_result = classifier.predict(scaled)[0]
+    regression_result = regressor.predict(scaled)[0]
+
+    return templates.TemplateResponse("form.html", {
+        "request": request,
+        "features": features_list,
+        "result_classification": int(classification_result),
+        "result_regression": round(float(regression_result), 2)
+    })

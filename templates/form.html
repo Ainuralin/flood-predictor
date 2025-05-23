@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flood Risk Prediction</title>
+    <title>Flood Risk Predictor</title>
     <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
@@ -11,18 +11,49 @@
         <h1>🌊 Flood Risk Predictor</h1>
         <form action="/predict_form" method="post">
             {% for feature in features %}
-                <div class="input-group">
-                    <label>{{ feature }}</label>
-                    <input type="number" step="any" name="{{ feature }}" required>
-                </div>
+                <label for="{{ feature }}">{{ feature.replace('_', ' ') }}:</label>
+                <input type="number" step="any" name="{{ feature }}" required><br>
             {% endfor %}
             <button type="submit">Predict</button>
         </form>
-        {% if prediction %}
-            <div class="result">
-                <strong>Prediction:</strong> {{ prediction }}
-            </div>
-        {% endif %}
     </div>
+
+    {% if result_classification is not none or result_regression is not none %}
+    <div class="modal" id="resultModal">
+        <div class="modal-content">
+            <h2>Prediction Result</h2>
+            {% if result_classification is not none %}
+                <p><strong>Flood Risk:</strong> 
+                    {% if result_classification == 1 %}
+                        High (Flood likely)
+                    {% else %}
+                        Low (No flood expected)
+                    {% endif %}
+                </p>
+            {% endif %}
+            
+            {% if result_regression is not none %}
+                <p><strong>Predicted Flood Severity Score:</strong> {{ result_regression }}</p>
+            {% endif %}
+            
+            <button id="closeModal">Close</button>
+        </div>
+    </div>
+    {% endif %}
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let modal = document.getElementById("resultModal");
+            let closeBtn = document.getElementById("closeModal");
+
+            if (modal) {
+                modal.style.display = "block";
+
+                closeBtn.onclick = function () {
+                    modal.style.display = "none";
+                };
+            }
+        });
+    </script>
 </body>
 </html>
